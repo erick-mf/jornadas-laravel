@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Respositories\Inscripcion;
+namespace App\Repositories\Inscripcion;
 
 use App\Models\Inscripcion;
 
 interface InscripcionRepositoryInterface
 {
-    public function model(?string $slug = null): Inscripcion;
+    public function model(?string $slug = null);
 
     public function paginate(array $count = [], array $relations = [], int $perPage = 10);
 

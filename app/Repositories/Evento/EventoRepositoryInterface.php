@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Respositories\Evento;
+namespace App\Repositories\Evento;
 
 use App\Models\Evento;
 
 interface EventoRepositoryInterface
 {
-    public function model(?string $slug = null): Evento;
+    public function model(?string $slug = null);
 
     public function paginate(array $count = [], array $relations = [], int $perPage = 10);
 

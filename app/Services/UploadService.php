@@ -18,6 +18,13 @@ class UploadService
 
     public static function delete(string $path, $disk = 'public')
     {
+        if (empty($path)) {
+            return false;
+        }
+
+        // Elimina 'public/' del inicio de la ruta si está presente
+        $path = str_replace('public/', '', $path);
+
         if (! Storage::disk($disk)->exists($path)) {
             return false;
         }

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Ponente;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,11 +21,10 @@ class EventoFactory extends Factory
         return [
             'tipo' => $this->faker->randomElement(['conferencia', 'taller']),
             'titulo' => $this->faker->sentence(),
-            'descripcion' => $this->faker->paragraph(),
-            'fecha_hora' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
+            'descripcion' => $this->faker->sentence(10),
+            'fecha_hora' => $this->faker->dateTimeBetween('now', '+1 weeks')->format('Y-m-d H:i'),
             'cupo_maximo' => $cupoMaximo,
             'cupo_actual' => $this->faker->numberBetween(0, $cupoMaximo),
-            'ponente_id' => Ponente::factory(),
         ];
     }
 }

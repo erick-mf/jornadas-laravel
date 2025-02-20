@@ -18,7 +18,7 @@ class PagoFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => User::inRandomOrder()->first()->id,
             'monto' => $this->faker->randomFloat(2, 10, 100),
             'estado' => $this->faker->randomElement(['pendiente', 'completado', 'fallido']),
             'paypal_transaccion_id' => $this->faker->uuid,

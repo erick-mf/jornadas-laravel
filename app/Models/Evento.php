@@ -18,9 +18,18 @@ class Evento extends Model
         'cupo_actual',
     ];
 
+    protected function casts()
+    {
+        return [
+            'fecha_hora' => 'datetime',
+            'cupo_maximo' => 'integer',
+            'cupo_actual' => 'integer',
+        ];
+    }
+
     public function ponentes()
     {
-        return $this->belongsToMany(Ponente::class);
+        return $this->belongsToMany(Ponente::class, 'evento_ponentes');
     }
 
     public function inscripciones()

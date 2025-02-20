@@ -16,17 +16,20 @@ class PonenteFactory extends Factory
      */
     public function definition(): array
     {
+        $areasExperiencia = ['JavaScript', 'PHP', 'Python', 'React', 'Vue', 'Angular', 'AWS', 'Docker', 'Kubernetes'];
+
+        $numeroAreas = $this->faker->numberBetween(1, 3);
+        $areaSeleccionadas = $this->faker->randomElements($areasExperiencia, $numeroAreas);
+
         return [
             'nombre' => $this->faker->name(),
             'image' => $this->faker->randomElement(['ponentes/1.jpg', 'ponentes/2.jpg', 'ponentes/3.jpg', 'ponentes/4.jpg', 'ponentes/5.jpg']),
-            'areas_experiencia' => $this->faker->randomElement(['JavaScript', 'PHP', 'Python']).', '.
-                                 $this->faker->randomElement(['React', 'Vue', 'Angular']).', '.
-                                 $this->faker->randomElement(['AWS', 'Docker', 'Kubernetes']),
-            'redes_sociales' => json_encode([
+            'areas_experiencia' => $areaSeleccionadas,
+            'redes_sociales' => [
                 'twitter' => '@'.$this->faker->userName(),
                 'linkedin' => 'https://linkedin.com/in/'.$this->faker->userName(),
                 'github' => 'https://github.com/'.$this->faker->userName(),
-            ]),
+            ],
         ];
     }
 }

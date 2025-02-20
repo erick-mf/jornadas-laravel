@@ -16,11 +16,18 @@ class Inscripcion extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function evento()
     {
-        return $this->belongsTo(Evento::class);
+        return $this->belongsTo(Evento::class, 'evento_id');
+    }
+
+    public function getEventos()
+    {
+        return Evento::query()
+            ->orderBy('fecha_hora', 'desc')
+            ->get();
     }
 }

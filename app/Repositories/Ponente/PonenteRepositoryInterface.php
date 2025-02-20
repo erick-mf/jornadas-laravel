@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Respositories\Ponente;
+namespace App\Repositories\Ponente;
 
 use App\Models\Ponente;
 
 interface PonenteRepositoryInterface
 {
-    public function model(?string $slug = null): Ponente;
+    public function model(?string $slug = null);
 
     public function paginate(array $count = [], array $relations = [], int $perPage = 10);
 

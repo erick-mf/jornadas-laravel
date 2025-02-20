@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
         // usuarios normales
         User::factory()->count(2)->create([
             'rol' => 'normal',
+            'password' => bcrypt('1234567890'),
             'tipo_inscripcion' => fake()->randomElement(['virtual', 'presencial', 'gratuita']),
             'cuenta_confirmada' => true,
             'token_confirmacion' => null,
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
         // Crear 2 estudiantes
         User::factory()->count(2)->create([
             'rol' => 'estudiante',
+            'password' => bcrypt('1234567890'),
             'tipo_inscripcion' => fake()->randomElement(['virtual', 'presencial', 'gratuita']),
             'cuenta_confirmada' => true,
             'token_confirmacion' => null,

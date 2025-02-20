@@ -19,8 +19,8 @@ class EventoPonenteFactory extends Factory
     public function definition(): array
     {
         return [
-            'evento_id' => Evento::factory(),
-            'ponente_id' => Ponente::factory(),
+            'evento_id' => Evento::inRandomOrder()->first()->id,
+            'ponente_id' => Ponente::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -12,6 +12,6 @@ class EventoPonenteSeeder extends Seeder
      */
     public function run(): void
     {
-        EventoPonente::factory()->count(20)->create();
+        EventoPonente::factory()->count(5)->create();
     }
 }

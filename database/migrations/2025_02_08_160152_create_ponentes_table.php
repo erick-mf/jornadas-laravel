@@ -18,8 +18,8 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('image')->nullable();
-            $table->text('areas_experiencia');
-            $table->string('redes_sociales')->nullable();
+            $table->json('areas_experiencia');
+            $table->json('redes_sociales')->nullable();
             $table->timestamps();
         });
     }

@@ -19,8 +19,8 @@ class InscripcionFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(),
-            'evento_id' => Evento::factory(),
+            'user_id' => User::inRandomOrder()->first()->id,
+            'evento_id' => Evento::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -53,12 +53,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function inscripciones(): HasMany
+    protected function inscripciones(): HasMany
     {
         return $this->hasMany(Inscripcion::class);
     }
 
-    public function pagos(): HasMany
+    protected function pagos(): HasMany
     {
         return $this->hasMany(Pago::class);
     }

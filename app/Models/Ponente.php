@@ -13,20 +13,28 @@ class Ponente extends Model
 
     protected $fillable = [
         'nombre',
-        'foto',
+        'image',
         'areas_experiencia',
         'redes_sociales',
     ];
 
-    public function eventos()
+    protected function casts()
     {
-        return $this->belongsToMany(Evento::class);
+        return [
+            'areas_experiencia' => 'array',
+            'redes_sociales' => 'array',
+        ];
     }
 
-    public function imagenUrl(): Attribute
+    public function eventos()
+    {
+        return $this->belongsToMany(Evento::class, 'evento_ponentes');
+    }
+
+    protected function imagenUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => UploadService::url($this->foto),
+            get: fn () => UploadService::url($this->image),
         );
     }
 }
