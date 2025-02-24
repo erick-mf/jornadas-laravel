@@ -76,7 +76,7 @@ class User extends Authenticatable
     {
         $email = $email ?? $this->email;
 
-        return Estudiante::where('email', $email)->exists();
+        return Estudiante::query()->where('email', $email)->exists();
     }
 
     public function pagos(): HasMany

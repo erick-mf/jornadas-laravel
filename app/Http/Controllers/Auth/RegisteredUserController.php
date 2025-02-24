@@ -31,7 +31,7 @@ class RegisteredUserController extends Controller
     {
         $userData = $request->validated();
 
-        if (! $user->esEstudiante($userData['email'])) {
+        if ($user->esEstudiante($userData['email']) && $userData['tipo_inscripcion'] === 'gratuita') {
             session()->flash('error', 'Lo sentimos, pero no puedes utlizar la inscripción gratuita.');
 
             return back();
