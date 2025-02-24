@@ -13,11 +13,17 @@
                         <div>
                             <h2 class="text-lg font-semibold mb-2">Detalles del Evento</h2>
                             <p><strong>Tipo:</strong> {{ ucfirst($evento->tipo) }}</p>
-                            <p><strong>Fecha:</strong> {{ $evento->fecha_hora->format('d/m/Y') }}
+                            <p><strong>Lugar:</strong> {{ ucfirst($evento->lugar) }}</p>
+                            <p><strong>Dia:</strong> {{ $evento->dia }}</p>
+                            <p><strong>Hora Inicio:</strong> {{ $evento->hora_inicio->format('H:i') }}</p>
+                            <p><strong>Hora Final:</strong> {{ $evento->hora_final->format('H:i') }}</p>
+                            <p>
+                                <strong>Precio Presencial:</strong> {{ $evento->precio_presencial_formateado }}
                             </p>
-                            <p><strong>Hora:</strong> {{ $evento->fecha_hora->format('H:i') }}
-                            </p>
-                            <p><strong>Cupo:</strong> {{ $evento->cupo_actual }} / {{ $evento->cupo_maximo }}</p>
+                            <p><strong>Precio Virtual:</strong> {{ $evento->precio_virtual_formateado }}</p>
+                            @if ($evento->ponentes->isNotEmpty())
+                                <p><strong>Cupo:</strong> {{ $evento->cupo_actual }} / {{ $evento->cupo_maximo }}</p>
+                            @endif
                         </div>
                     </div>
 
@@ -38,28 +44,79 @@
                                 @endforeach
                             </div>
                         </div>
-                    @endif
 
-                    <div class="mt-8">
-                        @if ($evento->ponentes->isNotEmpty())
+                        <div class="mt-8">
                             @if ($evento->cupo_actual < $evento->cupo_maximo)
-                                <a href="#"
-                                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Inscribirse al Evento
-                                </a>
+                                @if (Auth::check() && auth()->user()->inscripciones()->where('evento_id', $evento->id)->exists())
+                                    <p class="text-green-600 font-semibold">Ya estas inscrito en este evento</p>
+                                @else
+                                    <x-danger-button x-data=""
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-inscripcion')">
+                                        {{ __('Inscribirse al Evento') }}
+                                    </x-danger-button>
+
+                                    <x-modal name="confirm-inscripcion" :show="$errors->inscripcion->isNotEmpty()" focusable>
+                                        <div x-data="{ tipoInscripcion: 'presencial' }">
+                                            <form method="POST" action="{{ route('inscripcion.store', $evento) }}"
+                                                class="p-6">
+                                                @csrf
+                                                <input type="hidden" name="evento_id" value="{{ $evento->id }}">
+
+                                                <h2 class="text-lg font-medium text-gray-900">
+                                                    {{ __('¿Está seguro de querer inscribirse a este evento?') }}
+                                                </h2>
+
+                                                <p class="mt-1 text-sm text-gray-600">
+                                                    {{ __('Una vez inscrito, recibirá información adicional sobre el evento.') }}
+                                                </p>
+
+                                                <div class="mt-6">
+                                                    <label for="tipo"
+                                                        class="block text-sm font-medium text-gray-700">
+                                                        {{ __('Tipo de Evento') }}
+                                                    </label>
+                                                    <select id="tipo" name="tipo" x-model="tipoInscripcion"
+                                                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                                        <option value="presencial">{{ __('Presencial') }}</option>
+                                                        <option value="virtual">{{ __('Virtual') }}</option>
+                                                    </select>
+                                                    <x-input-error :messages="$errors->inscripcion->get('tipo')" class="mt-2" />
+                                                </div>
+
+                                                <p class="mt-4 text-sm text-gray-600">
+                                                    Precio:
+                                                    <span
+                                                        x-text="tipoInscripcion === 'presencial' ? '{{ $evento->precio_presencial_formateado }}' : '{{ $evento->precio_virtual_formateado }}'"></span>
+                                                </p>
+
+                                                <div class="mt-6 flex justify-end">
+                                                    <x-secondary-button x-on:click="$dispatch('close')">
+                                                        {{ __('Cancelar') }}
+                                                    </x-secondary-button>
+
+                                                    <x-danger-button class="ms-3">
+                                                        {{ __('Confirmar Inscripción') }}
+                                                    </x-danger-button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </x-modal>
+                                @endif
                             @else
                                 <p class="text-red-600 font-semibold">Este evento está completo</p>
                             @endif
-                        @else
+                        </div>
+                    @else
+                        <div class="mt-8">
                             <p class="text-red-600 font-semibold">No hay ponentes disponibles para este evento</p>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 
             <div class="mt-6 text-center">
                 <a href="{{ route('eventos.index') }}" class="text-blue-600 hover:underline">
-                    Volver a la lista de eventos
+                    Volver
                 </a>
             </div>
         </div>

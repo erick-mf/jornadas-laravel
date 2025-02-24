@@ -20,7 +20,6 @@ class UserSeeder extends Seeder
             'password' => bcrypt('1234567890'),
             'email_verified_at' => now(),
             'rol' => 'admin',
-            'tipo_inscripcion' => null,
             'cuenta_confirmada' => true,
             'token_confirmacion' => null,
             'remember_token' => Str::random(10),
@@ -29,18 +28,20 @@ class UserSeeder extends Seeder
         User::factory()->count(2)->create([
             'rol' => 'normal',
             'password' => bcrypt('1234567890'),
-            'tipo_inscripcion' => fake()->randomElement(['virtual', 'presencial', 'gratuita']),
             'cuenta_confirmada' => true,
             'token_confirmacion' => null,
         ]);
 
         // Crear 2 estudiantes
-        User::factory()->count(2)->create([
-            'rol' => 'estudiante',
-            'password' => bcrypt('1234567890'),
-            'tipo_inscripcion' => fake()->randomElement(['virtual', 'presencial', 'gratuita']),
-            'cuenta_confirmada' => true,
-            'token_confirmacion' => null,
-        ]);
+        for ($i = 1; $i < 3; $i++) {
+            User::factory()->create([
+                'nombre' => 'estudiante'.$i,
+                'rol' => 'estudiante',
+                'email' => 'estudiante'.$i.'@example.com',
+                'password' => bcrypt('1234567890'),
+                'cuenta_confirmada' => true,
+                'token_confirmacion' => null,
+            ]);
+        }
     }
 }

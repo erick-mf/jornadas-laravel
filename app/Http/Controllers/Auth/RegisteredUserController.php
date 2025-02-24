@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Mail\ConfirmEmail;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -27,21 +27,42 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    // public function store(Request $request): RedirectResponse
-    public function store(UserRequest $request): RedirectResponse
+    public function store(UserRequest $request, User $user): RedirectResponse
     {
-        // $request->validate([
-        //     'name' => ['required', 'string', 'max:255'],
-        //     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        // ]);
+        $userData = $request->validated();
 
-        $user = User::create($request->validate());
+        if (! $user->esEstudiante($userData['email'])) {
+            session()->flash('error', 'Lo sentimos, pero no puedes utlizar la inscripción gratuita.');
+
+            return back();
+        }
+        $userData['tipo_inscripcion'] = 'gratuita';
+        $userData['rol'] = 'estudiante';
+        $userData['token_confirmacion'] = Str::random(60);
+
+        $user = User::create($userData);
+
+        Mail::to($user->email)->send(new ConfirmEmail($userData['token_confirmacion']));
 
         event(new Registered($user));
 
-        Auth::login($user);
+        return redirect(route('welcome', absolute: false))->with('success', 'Te hemos enviado un correo de confirmación.');
+    }
 
-        return redirect(route('welcome', absolute: false));
+    public function confirmarCuenta($token)
+    {
+        $user = User::where('token_confirmacion', $token)->first();
+
+        if (! $user) {
+            return redirect()->route('login')->with('error', 'Token de confirmación inválido.');
+        }
+
+        $user->cuenta_confirmada = true;
+        $user->email_verified_at = now();
+        $user->token_confirmacion = null;
+        $user->remember_token = Str::random(10);
+        $user->save();
+
+        return redirect()->route('login')->with('success', 'Cuenta confirmada exitosamente. Ya puedes iniciar sesión.');
     }
 }

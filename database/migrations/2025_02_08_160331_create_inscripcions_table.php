@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Evento::class)->constrained()->onDelete('cascade');
+            $table->enum('tipo_inscripcion', ['virtual', 'presencial', 'gratuita']);
+            $table->decimal('precio_pagado', 8, 2)->default(0);
             $table->timestamps();
         });
     }

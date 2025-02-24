@@ -17,7 +17,9 @@
                                     <th class="w-1/6 px-2 py-2">Tipo</th>
                                     <th class="w-1/4 px-4 py-2">Título</th>
                                     <th class="w-1/6 px-4 py-2">Descripción</th>
-                                    <th class="w-1/6 px-4 py-2">Fecha y Hora</th>
+                                    <th class="w-1/6 px-4 py-2">Dia</th>
+                                    <th class="w-1/6 px-4 py-2">Hora inicio</th>
+                                    <th class="w-1/6 px-4 py-2">Hora fin</th>
                                     <th class="w-1/6 px-3 py-2">Cupo</th>
                                     <th class="w-1/6 px-3 py-2">Acciones</th>
                                 </tr>
@@ -28,7 +30,9 @@
                                         <td class="px-2 py-2">{{ $evento->tipo }}</td>
                                         <td class="px-4 py-2">{{ $evento->titulo }}</td>
                                         <td class="px-4 py-2">{{ $evento->descripcion }}</td>
-                                        <td class="px-4 py-2">{{ $evento->fecha_hora->format('d/m/Y H:i') }}</td>
+                                        <td class="px-4 py-2">{{ $evento->dia }}</td>
+                                        <td class="px-4 py-2">{{ $evento->hora_inicio->format('H:i') }}</td>
+                                        <td class="px-4 py-2">{{ $evento->hora_final->format('H:i') }}</td>
                                         <td class="px-4 py-2">
                                             {{ $evento->cupo_actual }} / {{ $evento->cupo_maximo }}
                                         </td>

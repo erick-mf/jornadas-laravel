@@ -22,7 +22,6 @@ class User extends Authenticatable
         'nombre',
         'email',
         'password',
-        'tipo_inscripcion',
         'rol',
         'cuenta_confirmada',
         'token_confirmacion',
@@ -53,12 +52,34 @@ class User extends Authenticatable
         ];
     }
 
-    protected function inscripciones(): HasMany
+    public function inscripciones(): HasMany
     {
         return $this->hasMany(Inscripcion::class);
     }
 
-    protected function pagos(): HasMany
+    public function eventos()
+    {
+        return $this->belongsToMany(Evento::class, 'inscripcions');
+    }
+
+    public function limiteDeConferencias()
+    {
+        return $this->eventos()->where('tipo', 'conferencia')->count() < 5;
+    }
+
+    public function limiteDeTalleres()
+    {
+        return $this->eventos()->where('tipo', 'taller')->count() < 4;
+    }
+
+    public function esEstudiante($email = null)
+    {
+        $email = $email ?? $this->email;
+
+        return Estudiante::where('email', $email)->exists();
+    }
+
+    public function pagos(): HasMany
     {
         return $this->hasMany(Pago::class);
     }

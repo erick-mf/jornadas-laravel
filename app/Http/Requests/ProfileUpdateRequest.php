@@ -27,4 +27,18 @@ class ProfileUpdateRequest extends FormRequest
             ],
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'nombre' => 'El nombre es obligatorio.',
+            'nombre.string' => 'El nombre debe ser una cadena de texto.',
+            'nombre.max' => 'El nombre no puede tener más de 255 caracteres.',
+
+            'email' => 'El correo électronico es obligatorio.',
+            'email.string' => 'El correo électronico debe ser una cadena de texto.',
+            'email.email' => 'El correo électronico debe ser una direccion de correo electronico valida.',
+            'email.max' => 'El correo électronico no puede tener más de 255 caracteres.',
+        ];
+    }
 }

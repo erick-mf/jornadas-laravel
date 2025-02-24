@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventoRequest;
 use App\Models\Evento;
+use App\Models\Ponente;
 use App\Repositories\Evento\EventoRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 
@@ -27,8 +28,11 @@ class EventoController extends Controller
      */
     public function create()
     {
+        $ponentes = Ponente::all();
+
         return view('admin.evento.create', [
             'evento' => $this->eventoRepository->model(),
+            'ponentes' => $ponentes,
             'actionUrl' => route('admin.eventos.store'),
             'buttonText' => 'Guardar',
             'method' => 'POST',
@@ -38,11 +42,20 @@ class EventoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(EventoRequest $request)
+    public function store(EventoRequest $request, Evento $evento)
     {
         $data = $request->validated();
 
-        $this->eventoRepository->create($data);
+        if ($evento->query()->where('hora_inicio', $data['hora_inicio'])->exists()) {
+            session()->flash('error', 'Ya existe un evento en esa hora.');
+
+            return redirect()->route('admin.eventos.create');
+        }
+
+        $evento = $this->eventoRepository->create($data);
+        if (isset($data['ponentes'])) {
+            $evento->ponentes()->sync($data['ponentes']);
+        }
 
         session()->flash('success', 'Evento creado correctamente.');
 
@@ -54,8 +67,11 @@ class EventoController extends Controller
      */
     public function edit(Evento $evento)
     {
+        $ponentes = Ponente::all();
+
         return view('admin.evento.edit', [
             'evento' => $evento,
+            'ponentes' => $ponentes,
             'actionUrl' => route('admin.eventos.update', $evento),
             'buttonText' => 'Actualizar',
             'method' => 'PUT',
@@ -70,6 +86,7 @@ class EventoController extends Controller
         $data = $request->validated();
         $this->eventoRepository->update($data, $evento);
 
+        $evento->ponentes()->sync($data['ponentes'] ?? []);
         session()->flash('success', 'Evento actualizado correctamente.');
 
         return redirect()->route('admin.eventos.index');

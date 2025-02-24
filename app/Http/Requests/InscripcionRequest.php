@@ -23,8 +23,7 @@ class InscripcionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'evento_id' => ['required', 'exists:eventos,id', Rule::unique('inscripcions', 'evento_id')->ignore($this->route('inscripcion'))],
-            'fecha_inscripcion' => ['required', 'date'],
+            'evento_id' => ['required'/* , Rule::unique('inscripcions', 'evento_id')->ignore($this->route('inscripcion')) */],
         ];
     }
 
@@ -32,9 +31,6 @@ class InscripcionRequest extends FormRequest
     {
         return [
             'evento_id.required' => 'El evento es obligatorio',
-            'evento_id.exists' => 'El evento seleccionado no es válido',
-            'fecha_inscripcion.required' => 'La fecha de inscripción es obligatoria',
-            'fecha_inscripcion.date' => 'La fecha de inscripción debe ser una fecha válida',
         ];
     }
 }

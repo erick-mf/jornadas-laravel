@@ -12,10 +12,22 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if (Auth::check() && Auth::user()->rol === 'admin')
-                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                            {{ __('Panel de Administración') }}
-                        </x-nav-link>
+                    @if (Auth::check())
+                        @if (Auth::user()->rol === 'admin')
+                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                                {{ __('Panel de Administración') }}
+                            </x-nav-link>
+                        @else
+                            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                {{ __('Mis inscripciones') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('eventos.index')" :active="request()->routeIs('eventos.index')">
+                                {{ __('Eventos') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('ponentes.index')" :active="request()->routeIs('ponentes.index')">
+                                {{ __('Ponentes') }}
+                            </x-nav-link>
+                        @endif
                     @else
                         <x-nav-link :href="route('eventos.index')" :active="request()->routeIs('eventos.index')">
                             {{ __('Eventos') }}
@@ -52,12 +64,6 @@
                             <x-dropdown-link :href="route('profile.edit')">
                                 {{ __('Mi perfil') }}
                             </x-dropdown-link>
-                            <!-- dashboard -->
-                            @if (Auth::user()->rol !== 'admin')
-                                <x-dropdown-link :href="route('dashboard')">
-                                    {{ __('Dashboard') }}
-                                </x-dropdown-link>
-                            @endif
 
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">

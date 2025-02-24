@@ -23,10 +23,14 @@ class EventoRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'ponentes' => 'nullable|array',
+            'ponentes.*' => 'exists:ponentes,id',
             'tipo' => 'required|in:conferencia,taller',
             'titulo' => ['required', 'max:255', 'string', Rule::unique('eventos', 'titulo')->ignore($this->route('evento'))],
             'descripcion' => 'required|string',
-            'fecha_hora' => 'required|date_format:Y-m-d\TH:i|after:now',
+            'fecha' => 'required|string|in:jueves,viernes',
+            'hora_inicio' => 'required|date_format:H:i',
+            'hora_final' => 'required|date_format:H:i|after:hora_inicio',
             'cupo_maximo' => 'required|integer|min:1',
         ];
     }
@@ -44,9 +48,11 @@ class EventoRequest extends FormRequest
 
             'descripcion.required' => 'La descripción del evento es obligatoria.',
 
-            'fecha_hora.required' => 'La fecha y hora del evento son obligatorias.',
-            'fecha_hora.date_format' => 'El formato de fecha y hora no es válido.',
-            'fecha_hora.after' => 'La fecha y hora deben ser posteriores a la actual.',
+            'fecha.required' => 'La fecha del evento son obligatorias.',
+            'fecha.in' => 'La fecha del evento debe ser jueves o viernes.',
+            'hora_inicio.required' => 'La hora de inicio del evento es obligatoria.',
+            'hora_final.required' => 'La hora de finalización del evento es obligatoria.',
+            'hora_final.after' => 'La hora de finalización debe ser posterior a la de inicio.',
 
             'cupo_maximo.required' => 'El cupo máximo es obligatorio.',
             'cupo_maximo.integer' => 'El cupo máximo debe ser un número entero.',

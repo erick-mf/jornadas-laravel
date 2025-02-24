@@ -21,6 +21,8 @@ class InscripcionFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->first()->id,
             'evento_id' => Evento::inRandomOrder()->first()->id,
+            'tipo_inscripcion' => $this->faker->randomElement(['presencial', 'virtual']),
+            'precio_pagado' => $this->faker->randomFloat(2, 0, 100),
         ];
     }
 }

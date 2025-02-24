@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             EventoPonenteSeeder::class,
             InscripcionSeeder::class,
             PagoSeeder::class,
+            EstudianteSeeder::class,
         ]);
     }
 }

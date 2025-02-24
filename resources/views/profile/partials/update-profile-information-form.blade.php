@@ -19,16 +19,16 @@
 
         <div>
             <x-input-label for="nombre" :value="__('Nombre')" />
+            <x-input-error class="mt-2" :messages="$errors->get('nombre')" />
             <x-text-input id="nombre" name="nombre" type="text" class="mt-1 block w-full" :value="old('nombre', $user->nombre)"
-                required autofocus autocomplete="nombre" />
-            <x-input-error class="mt-2" :messages="$errors->get('name')" />
+                autofocus autocomplete="nombre" />
         </div>
 
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)"
-                required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)"
+                autocomplete="username" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                 <div>

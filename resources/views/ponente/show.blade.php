@@ -25,15 +25,15 @@
                             </div>
                         @endif
 
-                        @if ($ponente->eventos->isNotEmpty())
+                        @if ($ponente->eventos->isnotempty())
                             <div class="mb-6">
-                                <h2 class="text-xl font-semibold mb-2">Próximos Eventos</h2>
+                                <h2 class="text-xl font-semibold mb-2">próximos eventos</h2>
                                 <ul class="list-disc list-inside">
                                     @foreach ($ponente->eventos as $evento)
                                         <li>
                                             <a href="{{ route('eventos.show', $evento) }}"
                                                 class="text-blue-600 hover:underline">
-                                                {{ $evento->titulo }} - {{ $evento->fecha_hora->format('d/m/Y H:i') }}
+                                                {{ sprintf('%s - %s (%s - %s)', $evento->titulo, $evento->dia, $evento->hora_inicio->format('h:i'), $evento->hora_final->format('h:i')) }}
                                             </a>
                                         </li>
                                     @endforeach
@@ -50,7 +50,7 @@
 
             <div class="mt-6 text-center">
                 <a href="{{ route('ponentes.index') }}" class="text-blue-600 hover:underline">
-                    Volver a la lista de ponentes
+                    Volver
                 </a>
             </div>
         </div>

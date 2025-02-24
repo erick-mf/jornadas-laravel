@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
@@ -36,7 +37,6 @@ class UserRequest extends FormRequest
                 'confirmed',
             ],
             'tipo_inscripcion' => 'nullable|in:virtual,presencial,gratuita',
-            'rol' => 'nullable|in:estudiante,normal',
         ];
     }
 
@@ -57,7 +57,6 @@ class UserRequest extends FormRequest
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             'password.confirmed' => 'La confirmación de la contraseña no coincide.',
             'tipo_inscripcion.in' => 'El tipo de inscripción debe ser virtual, presencial o gratuita.',
-            'rol.in' => 'El rol debe ser admin, estudiante o normal.',
         ];
     }
 }

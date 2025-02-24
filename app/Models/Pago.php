@@ -12,6 +12,7 @@ class Pago extends Model
 
     protected $fillable = [
         'user_id',
+        'inscripcion_id',
         'monto',
         'estado',
         'paypal_transaccion_id',
@@ -22,7 +23,7 @@ class Pago extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function precioFormateado()
+    protected function precioFormateado()
     {
         $formatPrecio = new NumberFormatter('es_ES', NumberFormatter::CURRENCY);
 

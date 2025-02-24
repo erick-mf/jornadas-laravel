@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Inscripcion;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,7 @@ class PagoFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
+            'Inscripcion_id' => Inscripcion::inRandomOrder()->first()->id,
             'monto' => $this->faker->randomFloat(2, 10, 100),
             'estado' => $this->faker->randomElement(['pendiente', 'completado', 'fallido']),
             'paypal_transaccion_id' => $this->faker->uuid,

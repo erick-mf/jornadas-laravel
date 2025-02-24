@@ -28,7 +28,6 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
-            'tipo_inscripcion' => $this->faker->randomElement(['virtual', 'presencial', 'gratuita']),
             'rol' => $this->faker->randomElement(['estudiante', 'normal']),
             'cuenta_confirmada' => $this->faker->boolean(),
             'token_confirmacion' => $this->faker->uuid(),

@@ -25,6 +25,13 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+        $user = Auth::user();
+
+        if ($user->cuenta_confirmada === false) {
+            Auth::logout();
+
+            return redirect()->route('welcome')->with('error', 'Debes confirmar tu cuenta primero.');
+        }
 
         $request->session()->regenerate();
         if (Auth::user()->rol === 'admin') {

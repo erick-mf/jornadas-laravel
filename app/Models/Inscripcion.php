@@ -12,6 +12,7 @@ class Inscripcion extends Model
     protected $fillable = [
         'user_id',
         'evento_id',
+        'precio_pagado',
     ];
 
     public function user()
@@ -27,7 +28,12 @@ class Inscripcion extends Model
     public function getEventos()
     {
         return Evento::query()
-            ->orderBy('fecha_hora', 'desc')
+            ->orderBy('dia', 'desc')
             ->get();
+    }
+
+    public function precioPagado()
+    {
+        $this->precio_pagado = $this->evento->obtenerPrecio($this->tipo_inscripcion);
     }
 }

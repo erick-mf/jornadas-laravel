@@ -16,15 +16,19 @@ class EventoFactory extends Factory
      */
     public function definition(): array
     {
-        $cupoMaximo = $this->faker->numberBetween(20, 50);
-
         return [
             'tipo' => $this->faker->randomElement(['conferencia', 'taller']),
             'titulo' => $this->faker->sentence(),
+            'lugar' => $this->faker->randomElement(['aula de taller', 'salon de actos']),
             'descripcion' => $this->faker->sentence(10),
-            'fecha_hora' => $this->faker->dateTimeBetween('now', '+1 weeks')->format('Y-m-d H:i'),
-            'cupo_maximo' => $cupoMaximo,
-            'cupo_actual' => $this->faker->numberBetween(0, $cupoMaximo),
+            'dia' => $this->faker->randomElement(['jueves', 'viernes']),
+            'hora_inicio' => $this->faker->time('H:i'),
+            'hora_final' => $this->faker->time('H:i'),
+            'cupo_maximo' => 3,
+            'cupo_actual' => $this->faker->numberBetween(0, 3),
+            'tipo_inscripcion' => $this->faker->randomElement(['virtual', 'presencial', 'gratuita']),
+            'precio_virtual' => $this->faker->randomFloat(2, 1, 100),
+            'precio_presencial' => $this->faker->randomFloat(2, 1, 100),
         ];
     }
 }

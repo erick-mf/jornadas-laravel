@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('tipo_inscripcion', ['virtual', 'presencial', 'gratuita'])->nullable();
             $table->enum('rol', ['admin', 'estudiante', 'normal'])->default('normal');
             $table->boolean('cuenta_confirmada')->default(false);
             $table->string('token_confirmacion')->nullable();

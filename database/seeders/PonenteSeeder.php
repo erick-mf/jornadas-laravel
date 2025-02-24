@@ -17,13 +17,13 @@ class PonenteSeeder extends Seeder
             'JavaScript', 'PHP', 'Python', 'React', 'Vue', 'Angular', 'AWS', 'Docker', 'Kubernetes',
         ];
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 1; $i < 11; $i++) {
             $numAreas = rand(1, 3);
             $selectedAreas = Arr::random($areasExperiencia, $numAreas);
 
             Ponente::create([
                 'nombre' => 'Ponente '.$i,
-                'image' => 'ponentes/'.($i % 5 + 1).'.jpg',
+                'image' => 'default.webp',
                 'areas_experiencia' => $selectedAreas,
                 'redes_sociales' => [
                     'twitter' => '@ponente'.$i,

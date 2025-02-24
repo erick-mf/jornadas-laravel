@@ -1,3 +1,3 @@
-<div class="mt-6 flex justify-center">
+<div class="pt-2">
     {{ $paginator->links() }}
 </div>
