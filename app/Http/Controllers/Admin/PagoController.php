@@ -3,16 +3,22 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\Pago\PagoRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PagoController extends Controller
 {
+    public function __construct(private readonly PagoRepositoryInterface $pagoRepository) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $pagos = $this->pagoRepository->paginate(perPage: 12);
+        $totalDePagos = $this->pagoRepository->totalFormateado();
+
+        return view('admin.pagos.index', compact('pagos', 'totalDePagos'));
     }
 
     /**

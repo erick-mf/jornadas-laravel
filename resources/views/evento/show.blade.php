@@ -17,12 +17,22 @@
                             <p><strong>Dia:</strong> {{ $evento->dia }}</p>
                             <p><strong>Hora Inicio:</strong> {{ $evento->hora_inicio->format('H:i') }}</p>
                             <p><strong>Hora Final:</strong> {{ $evento->hora_final->format('H:i') }}</p>
-                            <p>
-                                <strong>Precio Presencial:</strong> {{ $evento->precio_presencial_formateado }}
-                            </p>
-                            <p><strong>Precio Virtual:</strong> {{ $evento->precio_virtual_formateado }}</p>
+                            @if (Auth::check())
+                                @if (Auth::user()->rol != 'estudiante')
+                                    <p>
+                                        <strong>Precio Presencial:</strong> {{ $evento->precio_presencial_formateado }}
+                                    </p>
+                                    <p><strong>Precio Virtual:</strong> {{ $evento->precio_virtual_formateado }}</p>
+                                @else
+                                    <p>
+                                        <strong>Precio Presencial:</strong> {{ __('Gratis') }}
+                                    </p>
+                                    <p><strong>Precio Virtual:</strong> {{ __('Gratis') }}</p>
+                                @endif
+                            @endif
                             @if ($evento->ponentes->isNotEmpty())
-                                <p><strong>Cupo:</strong> {{ $evento->cupo_actual }} / {{ $evento->cupo_maximo }}</p>
+                                <p><strong>Cupo:</strong> {{ $evento->cupo_actual }} / {{ $evento->cupo_maximo }}
+                                </p>
                             @endif
                         </div>
                     </div>
@@ -70,6 +80,14 @@
                                                     {{ __('Una vez inscrito, recibirá información adicional sobre el evento.') }}
                                                 </p>
 
+                                                @if (Auth::check() && auth()->user()->rol != 'estudiante')
+                                                    <p class="mt-4 text-sm text-gray-600">
+                                                        <strong>Precio:</strong>
+                                                        <span
+                                                            x-text="tipoInscripcion === 'presencial' ? '{{ $evento->precio_presencial_formateado }}' : '{{ $evento->precio_virtual_formateado }}'"></span>
+                                                    </p>
+                                                @endif
+
                                                 <div class="mt-6">
                                                     <label for="tipo"
                                                         class="block text-sm font-medium text-gray-700">
@@ -83,11 +101,6 @@
                                                     <x-input-error :messages="$errors->inscripcion->get('tipo')" class="mt-2" />
                                                 </div>
 
-                                                <p class="mt-4 text-sm text-gray-600">
-                                                    Precio:
-                                                    <span
-                                                        x-text="tipoInscripcion === 'presencial' ? '{{ $evento->precio_presencial_formateado }}' : '{{ $evento->precio_virtual_formateado }}'"></span>
-                                                </p>
 
                                                 <div class="mt-6 flex justify-end">
                                                     <x-secondary-button x-on:click="$dispatch('close')">

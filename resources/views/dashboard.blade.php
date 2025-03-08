@@ -25,7 +25,7 @@
                                         <p>{{ __('Tipo de Inscripcion') }}:
                                             {{ ucfirst($inscripcion->tipo_inscripcion) }}</p>
                                     </div>
-                                    <div>
+                                    <div class="mt-4">
                                         <x-danger-button x-data=""
                                             x-on:click.prevent="$dispatch('open-modal', 'confirm-eliminar-inscripcion')">
                                             {{ __('Eliminar Inscripción') }}

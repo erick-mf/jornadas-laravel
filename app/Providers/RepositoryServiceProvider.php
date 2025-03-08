@@ -6,6 +6,8 @@ use App\Repositories\Evento\EloquentEventoRepository;
 use App\Repositories\Evento\EventoRepositoryInterface;
 use App\Repositories\Inscripcion\EloquentInscripcionRepository;
 use App\Repositories\Inscripcion\InscripcionRepositoryInterface;
+use App\Repositories\Pago\EloquentPagoRepository;
+use App\Repositories\Pago\PagoRepositoryInterface;
 use App\Repositories\Ponente\EloquentPonenteRepository;
 use App\Repositories\Ponente\PonenteRepositoryInterface;
 use App\Repositories\User\EloquentUserRepository;
@@ -23,6 +25,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PonenteRepositoryInterface::class, EloquentPonenteRepository::class);
         $this->app->bind(EventoRepositoryInterface::class, EloquentEventoRepository::class);
         $this->app->bind(InscripcionRepositoryInterface::class, EloquentInscripcionRepository::class);
+        $this->app->bind(PagoRepositoryInterface::class, EloquentPagoRepository::class);
     }
 
     /**
