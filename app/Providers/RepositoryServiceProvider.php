@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Carrito\CarritoRepositoryInterface;
+use App\Repositories\Carrito\EloquentCarritoRepository;
 use App\Repositories\Evento\EloquentEventoRepository;
 use App\Repositories\Evento\EventoRepositoryInterface;
 use App\Repositories\Inscripcion\EloquentInscripcionRepository;
@@ -26,6 +28,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(EventoRepositoryInterface::class, EloquentEventoRepository::class);
         $this->app->bind(InscripcionRepositoryInterface::class, EloquentInscripcionRepository::class);
         $this->app->bind(PagoRepositoryInterface::class, EloquentPagoRepository::class);
+        $this->app->bind(CarritoRepositoryInterface::class, EloquentCarritoRepository::class);
     }
 
     /**

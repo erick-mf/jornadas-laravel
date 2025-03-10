@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\PresioFormateado;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use NumberFormatter;
@@ -9,6 +11,7 @@ use NumberFormatter;
 class Evento extends Model
 {
     use HasFactory;
+    use PresioFormateado;
 
     protected $fillable = [
         'tipo',
@@ -72,20 +75,29 @@ class Evento extends Model
         }
     }
 
+    public function obtenerPrecioFormateado($tipo_inscripcion)
+    {
+        $precio = $this->obtenerPrecio($tipo_inscripcion);
+
+        return Attribute::make(
+            get: fn () => $this->formatCurrency($precio),
+        );
+    }
+
     // NOTE: https://documentacionlaravel.com/docs/11.x/eloquent-mutators#accessors-and-mutators
     // En este caso, se formatean los precios de los eventos.
     // Los accesores en laravel deben llevar "get" y "Attribute" para que Eloquent los reconozca automáticamente.
     public function getPrecioVirtualFormateadoAttribute()
     {
-        $formatPrecio = new NumberFormatter('es_ES', NumberFormatter::CURRENCY);
+        // $formatPrecio = new NumberFormatter('es_ES', NumberFormatter::CURRENCY);
 
-        return $formatPrecio->formatCurrency($this->precio_virtual, 'EUR');
+        return $this->formatCurrency($this->precio_virtual);
     }
 
     public function getPrecioPresencialFormateadoAttribute()
     {
-        $formatPrecio = new NumberFormatter('es_ES', NumberFormatter::CURRENCY);
+        // $formatPrecio = new NumberFormatter('es_ES', NumberFormatter::CURRENCY);
 
-        return $formatPrecio->formatCurrency($this->precio_presencial, 'EUR');
+        return $this->formatCurrency($this->precio_presencial);
     }
 }
