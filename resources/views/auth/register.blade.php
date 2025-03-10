@@ -35,21 +35,6 @@
                     name="password_confirmation" autocomplete="new-password" />
             </div>
 
-            <!-- Tipo Inscripcion -->
-            <div class="mt-4">
-                <x-input-label for="tipo_inscripcion" :value="__('Tipo de Inscripción')" />
-                <x-input-error :messages="$errors->get('tipo_inscripcion')" class="mt-2" />
-                <select id="tipo_inscripcion" class="block mt-1 w-full" name="tipo_inscripcion">
-                    <option value="virtual" {{ old('tipo_inscripcion') == 'virtual' ? 'selected' : '' }}>Virtual
-                    </option>
-                    <option value="presencial" {{ old('tipo_inscripcion') == 'presencial' ? 'selected' : '' }}>
-                        Presencial
-                    </option>
-                    <option value="gratuita" {{ old('tipo_inscripcion') == 'gratuita' ? 'selected' : '' }}>Gratuita
-                    </option>
-                </select>
-            </div>
-
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     href="{{ route('login') }}">

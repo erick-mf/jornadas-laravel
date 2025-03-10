@@ -30,14 +30,12 @@ class RegisteredUserController extends Controller
     public function store(UserRequest $request, User $user): RedirectResponse
     {
         $userData = $request->validated();
+        $estudiante = $user->esEstudiante($userData['email']);
 
-        if ($user->esEstudiante($userData['email']) && $userData['tipo_inscripcion'] === 'gratuita') {
-            session()->flash('error', 'Lo sentimos, pero no puedes utlizar la inscripción gratuita.');
-
-            return back();
+        if (! $estudiante) {
+            $userData['rol'] = 'normal';
         }
-        $userData['tipo_inscripcion'] = 'gratuita';
-        $userData['rol'] = 'estudiante';
+
         $userData['token_confirmacion'] = Str::random(60);
 
         $user = User::create($userData);

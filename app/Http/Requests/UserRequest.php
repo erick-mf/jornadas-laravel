@@ -36,7 +36,6 @@ class UserRequest extends FormRequest
                 'min:5',
                 'confirmed',
             ],
-            'tipo_inscripcion' => 'nullable|in:virtual,presencial,gratuita',
         ];
     }
 
@@ -56,7 +55,6 @@ class UserRequest extends FormRequest
             'password.string' => 'La contraseña debe ser una cadena de texto.',
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             'password.confirmed' => 'La confirmación de la contraseña no coincide.',
-            'tipo_inscripcion.in' => 'El tipo de inscripción debe ser virtual, presencial o gratuita.',
         ];
     }
 }

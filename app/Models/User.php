@@ -72,11 +72,15 @@ class User extends Authenticatable
         return $this->eventos()->where('tipo', 'taller')->count() < 4;
     }
 
-    public function esEstudiante($email = null)
+    public function esEstudiante($email)
     {
-        $email = $email ?? $this->email;
+        $estudiante = Estudiante::where('email', $email)->first();
 
-        return Estudiante::query()->where('email', $email)->exists();
+        if (! $estudiante) {
+            return false;
+        }
+
+        return true;
     }
 
     public function pagos(): HasMany

@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Services\UploadService;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
 
@@ -56,7 +57,7 @@ trait CRUDOperaciones
         $imageField = 'image';
         $folder = strtolower(class_basename($this->model));
 
-        if (Arr::has($data, $imageField) && $data[$imageField] instanceof \Illuminate\Http\UploadedFile) {
+        if (Arr::has($data, $imageField) && $data[$imageField] instanceof UploadedFile) {
             // Si se proporciona una nueva imagen
             if ($model && $model->$imageField) {
                 // Eliminar la imagen anterior si existe
